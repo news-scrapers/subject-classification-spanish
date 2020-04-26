@@ -1,5 +1,5 @@
 recursive-include saved_model *
-recursive-include subject-classification-spanish *
+recursive-include subject_classification_spanish *
 
 recursive-include *.pickle
 recursive-include *.h5
