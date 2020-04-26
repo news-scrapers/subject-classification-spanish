@@ -1,4 +1,4 @@
-# sentiment-spanish
+# subject-classification-spanish
 
 
 [![PyPI version](https://badge.fury.io/py/subject-classification-spanish.svg)](https://badge.fury.io/py/subject-classification-spanish)
