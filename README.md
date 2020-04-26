@@ -1,11 +1,11 @@
 # sentiment-spanish
 
 
-[![PyPI version](https://badge.fury.io/py/subject_classifier_spanish.svg)](https://badge.fury.io/py/subject_classifier_spanish)
+[![PyPI version](https://badge.fury.io/py/subject-classification-spanish.svg)](https://badge.fury.io/py/subject-classification-spanish)
 
 # How does it work?
 
-subject-classifier-spanish is a python library that uses convolutional neural networks to predict the subject (politics, sports, health...) of spanish sentences. The model was trained using over *1000000* news from the main spanish newspapers *el pais, el mundo, abc, la vanguardia, 20 minutos and publico*.
+subject-classification-spanish is a python library that uses convolutional neural networks to predict the subject (politics, sports, health...) of spanish sentences. The model was trained using over *1000000* news from the main spanish newspapers *el pais, el mundo, abc, la vanguardia, 20 minutos and publico*.
 This news were extracted using web scraping with the project [news-scrapers-workers-go](https://github.com/news-scrapers/news-scraper-workers-go)
 
 Using the tags in the news we trained the model to learn from the language in them. For that we use the libraries Keras and Tensorflow and sklearn.
@@ -21,7 +21,7 @@ I believe there are not many solutions to subject classification analysis **in s
 First to install the package
 
 ```
-pip install subject-classifier-spanish
+pip install subject-classification-spanish
 ```
 
 You will also need keras, tensorflow and sklearn
@@ -33,7 +33,7 @@ pip install keras tensorflow sklearn
 Import the package
 
 ```
-from subject_classifier_spanish import subject_classifier
+from subject_classification_spanish import subject_classifier
 
 ```
 
