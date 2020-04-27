@@ -88,6 +88,8 @@ you will see that it outputs:
 {'atlético madrid': 0.36974072, 'real madrid': 0.25722897, 'fútbol': 0.075289354, 'deportes': 0.038075462, 'futbolistas': 0.029724792, 'baloncesto': 0.025478985, 'fc barcelona': 0.02337921, 'jugadores': 0.021244459, 'equipos': 0.015159458, 'primera división': 0.013489615}
 ```
 
+## Customization
+The function ``classfy(text)`` admits a keyword input ``default_threshold`` . This is the lowest probability of the subject you want to display. By default is 0.001. 
 
 ## Output and meaning
 The function ``classfy(text)`` a dictionary wich has all the subjects as keys and the probabilities as values a number between 0 and 1.

@@ -18,7 +18,7 @@ class SubjectClassifier:
         self.tokenizer = None
         self.multilabel_binarizer = None
         self.parent_path = Path(__file__).parent
-        self.default_threadshole = 0.001
+        self.default_threshold = 0.001
 
         with open(self.parent_path / 'saved_model/tokenizer.pickle', 'rb') as handle:
             self.tokenizer = pickle.load(handle)
@@ -48,12 +48,12 @@ class SubjectClassifier:
             text = text.strip()
             return text
 
-    def obtain_classes(self, proba):
+    def obtain_classes(self, proba, default_threshold):
         idxs = np.argsort(proba)[::-1][:10]
         subjects = {}
         # loop over the indexes of the high confidence class labels
         for (i, j) in enumerate(idxs):
-            if (proba[j] > self.default_threadshole):
+            if (proba[j] > default_threshold):
                 # build the label and draw the label on the image
                 subject = self.multilabel_binarizer.classes_[j]
                 probability = proba[j]
@@ -61,9 +61,11 @@ class SubjectClassifier:
         return subjects
                 
     #returns the sentiment of a text string
-    def classfy(self, text:str):
+    def classfy(self, text:str, *default_threshold):
+        if (default_threshold == ()):
+            default_threshold = self.default_threshold
         x = self.tokenizer.texts_to_sequences([self.clean_text(text)])
         x = pad_sequences(x, padding='post', maxlen=self.maxlen)
 
         y_new = self.loaded_model.predict(x)
-        return self.obtain_classes(y_new[0])
+        return self.obtain_classes(y_new[0], default_threshold)
