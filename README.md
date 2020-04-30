@@ -54,7 +54,7 @@ classifier = SubjectClassifier()
 run the subject analysis:
 
 ```
-classes_result = classifier.classfy(text_text_politics)
+classes_result = classifier.classify(text_text_politics)
 print(classes_result)
 
 
@@ -77,7 +77,7 @@ text_text_football =  "Buenas noticias para el Atlético de Madrid a expensas de
 run the subject analysis:
 
 ```
-classes_result = classifier.classfy(text_text_football)
+classes_result = classifier.classify(text_text_football)
 print(classes_result)
 
 ```
@@ -89,7 +89,7 @@ you will see that it outputs:
 ```
 
 ## Customization
-The function ``classfy(text)`` admits a keyword input ``default_threshold`` . This is the lowest probability of the subject you want to display. By default is 0.001. 
+The function ``classify(text)`` admits an input ``default_threshold`` . This is the lowest probability of the subject you want to display. By default is 0.001. 
 
 ## Output and meaning
-The function ``classfy(text)`` a dictionary wich has all the subjects as keys and the probabilities as values a number between 0 and 1.
+The function ``classify(text)`` a dictionary wich has all the subjects as keys and the probabilities as values a number between 0 and 1.

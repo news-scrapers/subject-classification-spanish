@@ -13,27 +13,38 @@ STOPWORDS = set(stopwords_imported)
 
 
 class SubjectClassifier:
-    def __init__(self):
+    def __init__(self, use_main_tags_only=False):
         self.maxlen = 700
         self.tokenizer = None
         self.multilabel_binarizer = None
         self.parent_path = Path(__file__).parent
         self.default_threshold = 0.001
+        if (use_main_tags_only==True):
+            self.path_tokenizer = 'saved_model/tokenizer_main_tags.pickle'
+            self.path_binarizer = 'saved_model/multilabel_binarizer_main_tags.pickle'
+            self.path_model_json = 'saved_model/model_main_tags.json'
+            #self.path_model_h5 = "saved_model/model_main_tags.h5"
+            self.path_model_h5 = "saved_model/model_main_tags.h5"
+        else:
+            self.path_tokenizer = 'saved_model/tokenizer.pickle'
+            self.path_binarizer = 'saved_model/multilabel_binarizer.pickle'
+            self.path_model_json = 'saved_model/model.json'
+            self.path_model_h5 =    "saved_model/model.h5"
 
-        with open(self.parent_path / 'saved_model/tokenizer.pickle', 'rb') as handle:
+        with open(self.parent_path / self.path_tokenizer, 'rb') as handle:
             self.tokenizer = pickle.load(handle)
         # load categories
-        with open(self.parent_path / 'saved_model/multilabel_binarizer.pickle', 'rb') as handle:
+        with open(self.parent_path / self.path_binarizer, 'rb') as handle:
             self.multilabel_binarizer = pickle.load(handle)
 
         # load json and create model
-        json_model_keras = open(self.parent_path / 'saved_model/model.json', 'r')
+        json_model_keras = open(self.parent_path / self.path_model_json, 'r')
         loaded_model_json = json_model_keras.read()
         json_model_keras.close()
         self.loaded_model = model_from_json(loaded_model_json)
 
         # load weights into new model
-        self.loaded_model.load_weights(self.parent_path / "saved_model/model.h5")
+        self.loaded_model.load_weights(self.parent_path / self.path_model_h5)
 
         # evaluate loaded model on test data
         self.loaded_model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
@@ -50,7 +61,7 @@ class SubjectClassifier:
 
     def obtain_classes(self, proba, default_threshold):
         idxs = np.argsort(proba)[::-1][:10]
-        subjects = {}
+        subjects = dict()
         # loop over the indexes of the high confidence class labels
         for (i, j) in enumerate(idxs):
             if (proba[j] > default_threshold):
@@ -61,7 +72,7 @@ class SubjectClassifier:
         return subjects
                 
     #returns the sentiment of a text string
-    def classfy(self, text:str, *default_threshold):
+    def classify(self, text:str, *default_threshold):
         if (default_threshold == ()):
             default_threshold = self.default_threshold
         x = self.tokenizer.texts_to_sequences([self.clean_text(text)])
@@ -69,3 +80,10 @@ class SubjectClassifier:
 
         y_new = self.loaded_model.predict(x)
         return self.obtain_classes(y_new[0], default_threshold)
+
+
+    def obtain_raw_probabilities(self, text:str):
+        x = self.tokenizer.texts_to_sequences([self.clean_text(text)])
+        x = pad_sequences(x, padding='post', maxlen=self.maxlen)
+        return self.loaded_model.predict(x)
+
