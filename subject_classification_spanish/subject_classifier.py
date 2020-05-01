@@ -59,8 +59,8 @@ class SubjectClassifier:
             text = text.strip()
             return text
 
-    def obtain_classes(self, proba, default_threshold):
-        idxs = np.argsort(proba)[::-1][:10]
+    def obtain_classes(self, proba, default_threshold, limit=10):
+        idxs = np.argsort(proba)[::-1][:limit]
         subjects = dict()
         # loop over the indexes of the high confidence class labels
         for (i, j) in enumerate(idxs):
@@ -72,14 +72,18 @@ class SubjectClassifier:
         return subjects
                 
     #returns the sentiment of a text string
-    def classify(self, text:str, *default_threshold):
-        if (default_threshold == ()):
-            default_threshold = self.default_threshold
+    def classify(self, text:str, **kwargs):
+        default_threshold = self.default_threshold
+        limit = 10
+        if ("default_threshold" in kwargs):
+            default_threshold = kwargs.get("default_threshold")
+        if ("limit" in kwargs):
+            limit = kwargs.get("limit")
         x = self.tokenizer.texts_to_sequences([self.clean_text(text)])
         x = pad_sequences(x, padding='post', maxlen=self.maxlen)
 
         y_new = self.loaded_model.predict(x)
-        return self.obtain_classes(y_new[0], default_threshold)
+        return self.obtain_classes(y_new[0], default_threshold, limit)
 
 
     def obtain_raw_probabilities(self, text:str):

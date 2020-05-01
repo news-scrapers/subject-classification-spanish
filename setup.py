@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="subject_classification_spanish",
-    version="0.0.9",
+    version="0.0.10",
     author="Hugo J. Bello",
     author_email="hjbello.wk@gmail.com",
     description="Subject and topic analysis for sentences in spanish",

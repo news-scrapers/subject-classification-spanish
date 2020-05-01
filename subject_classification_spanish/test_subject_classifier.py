@@ -43,9 +43,10 @@ class TestSentimentAnalysis(unittest.TestCase):
 
         text_text_football =  "Buenas noticias para el Atlético de Madrid a expensas de que la crisis sanitaria provocada por el Covid19 permita volver a la actividad normal en todo el país y eso suponga también el regreso del fútbol. Sabiendo que ahora mismo no es lo más importante, la vuelta de la competición constataría que se ha podido superar esta pesadilla generada por el coronavirus. El caso es que, de momento, el Atlético de Madrid ya sabe que podrá contar con uno de sus hombres más importantes, con Álvaro Morata . El jugador ha aprovechado estas semanas de parón para recuperarse de la lesión que se produjo el pasado 11 de marzo en el partido que el equipo colchonero disputó ante el Liverpool en Anfield Road. Antes de esa cita, el futbolista se lesionaba 15 días antes del partido de ida de los octavos de final ante el Liverpool y tuvo que trabajar contrarreloj para recuperarse. Lo consiguió, claro, pero era evidente que estaba jugando con molestias. Encima, en el choque posterior ante el Sevilla se llevó varios golpes, uno en el glúteo y otro en una de sus piernas, que le hicieron ser seria duda para la cita de Anfield, a la que llegó mermado. De ahí que se acabase lesionando pese a marcar el gol de la victoria. Pues bien, el jugador ya cuenta con el alta médica, según explicó hace unos días el diario Marca. Eso quiere decir que ya está para entrenarse como el resto de compañeros, con algo más de intensidad, dentro del programa que el cuerpo técnico rojiblanco ha transmitido a los futbolistas. El futbolista se tuvo que recuperar en casa a cuenta del confinamiento, pero el club colchonero le puso a su disposición material de fisioterapia, presoterapia, crioterapia y electroestimulación para pasar este trance y cuenta con el seguimiento diario y asesoramiento de los profesionales del club, de los recuperadores del equipo así como del jefe de los servicios médicos."
         print(text_text_football)
-        classesResult = classifier.classify(text_text_football)
+        classesResult = classifier.classify(text_text_football,default_threshold=0.02,limit=4)
         self.assertGreater(classesResult["deporte"], 0.1, "should now it talks about futbol")
         print("--------")
+        print(classesResult)
         print(classifier.obtain_raw_probabilities(text_text_football))
 
 
